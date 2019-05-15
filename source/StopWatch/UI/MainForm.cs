@@ -66,7 +66,7 @@ namespace StopWatch
             ticker.Tick += ticker_Tick;
 
 						idleTimer = new Timer();
-						idleTimer.Interval = 5000;
+						idleTimer.Interval = idleCheckInterval;
 						idleTimer.Tick += idle_Tick;
 				}
 
@@ -185,14 +185,38 @@ namespace StopWatch
 					}
 				}
 
-		private int maxIdleTime = 10000;
-
 		void idle_Tick(object sender, EventArgs e)
 		{
 			var idleTime = IdleTimeFinder.GetIdleTime();
 			if (idleTime > maxIdleTime)
 			{
 				ShowOnTop();
+
+				String str = String.Format("You have been idle for more than {0} minutes. Do you want to remove them from all currently running timers?", maxIdleTime / 60000);
+				var timeOnDialog = DateTime.Now.TimeOfDay;
+				DialogResult dialogResult = MessageBox.Show(str, "You have been idle", MessageBoxButtons.YesNo);
+				if (dialogResult == DialogResult.Yes)
+				{
+					var currTime = DateTime.Now.TimeOfDay;
+					var diff = currTime - timeOnDialog;
+					var totalIdleTime = idleTime + diff.TotalMilliseconds;
+
+					// subtract from all running timers
+					foreach (IssueControl issue in this.issueControls)
+					{
+						issue.WatchTimer.SubtractWhenRunning(totalIdleTime);
+						issue.UpdateOutput();
+					}
+
+					UpdateTotalTime();
+
+					String remStr = String.Format("{0} minutes subtracted.", totalIdleTime / 60000);
+					MessageBox.Show(remStr, "Idle time removed", MessageBoxButtons.OK);
+				}
+				else if (dialogResult == DialogResult.No)
+				{
+					//
+				}
 			}
 		}
 
@@ -782,9 +806,11 @@ namespace StopWatch
         private const int firstDelay = 500;
         private const int defaultDelay = 30000;
         private const int maxIssues = 20;
-        #endregion
+				private const int maxIdleTime = 10*60*1000;
+				private const int idleCheckInterval = 30*1000;
+				#endregion
 
-        private int currentIssueIndex;
+				private int currentIssueIndex;
 
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

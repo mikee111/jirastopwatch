@@ -713,7 +713,6 @@ namespace StopWatch
             );
         }
 
-
         public void EditTime()
         {
             using (var editTimeForm = new EditTimeForm(WatchTimer.TimeElapsed))

@@ -69,6 +69,28 @@ namespace StopWatch
             Reset();
         }
 
+				public void SubtractWhenRunning(double milliseconds)
+				{
+					if(!Running)
+					{
+						return;
+					}
+
+					Pause();
+
+					var subtractTime = TimeSpan.FromMilliseconds(milliseconds);
+					if(totalTime.CompareTo(subtractTime) > 0)
+					{
+						totalTime = totalTime.Subtract(subtractTime);
+					}
+					else
+					{
+						Reset();
+					}
+
+					Start();
+				}
+
 
         public void Start()
         {
