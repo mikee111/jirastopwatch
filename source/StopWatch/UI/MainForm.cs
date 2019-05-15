@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace StopWatch
 {
@@ -63,7 +64,11 @@ namespace StopWatch
             // First run should be almost immediately after start
             ticker.Interval = firstDelay;
             ticker.Tick += ticker_Tick;
-        }
+
+						idleTimer = new Timer();
+						idleTimer.Interval = 5000;
+						idleTimer.Tick += idle_Tick;
+				}
 
 
         public void HandleSessionLock()
@@ -138,6 +143,58 @@ namespace StopWatch
                 CheckForUpdates();
             }
         }
+
+				internal struct LASTINPUTINFO
+				{
+					public uint cbSize;
+					public uint dwTime;
+				}
+
+				/// <summary>
+				/// Helps to find the idle time, (in milliseconds) spent since the last user input
+				/// </summary>
+				public class IdleTimeFinder
+				{
+					[DllImport("User32.dll")]
+					private static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
+
+					[DllImport("Kernel32.dll")]
+					private static extern uint GetLastError();
+
+					public static uint GetIdleTime()
+					{
+						LASTINPUTINFO lastInPut = new LASTINPUTINFO();
+						lastInPut.cbSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(lastInPut);
+						GetLastInputInfo(ref lastInPut);
+
+						return ((uint)Environment.TickCount - lastInPut.dwTime);
+					}
+					/// <summary>
+					/// Get the Last input time in milliseconds
+					/// </summary>
+					/// <returns></returns>
+					public static long GetLastInputTime()
+					{
+						LASTINPUTINFO lastInPut = new LASTINPUTINFO();
+						lastInPut.cbSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(lastInPut);
+						if (!GetLastInputInfo(ref lastInPut))
+						{
+							throw new Exception(GetLastError().ToString());
+						}
+						return lastInPut.dwTime;
+					}
+				}
+
+		private int maxIdleTime = 10000;
+
+		void idle_Tick(object sender, EventArgs e)
+		{
+			var idleTime = IdleTimeFinder.GetIdleTime();
+			if (idleTime > maxIdleTime)
+			{
+				ShowOnTop();
+			}
+		}
 
 
         private void pbSettings_Click(object sender, EventArgs e)
@@ -229,10 +286,12 @@ namespace StopWatch
             {
                 this.notifyIcon.Visible = true;
                 this.Hide();
-            }
+								idleTimer.Start();
+						}
             else if (WindowState == FormWindowState.Normal)
             {
                 this.notifyIcon.Visible = false;
+								idleTimer.Stop();
             }
         }
 
@@ -705,6 +764,7 @@ namespace StopWatch
         }
 
         private Timer ticker;
+				private Timer idleTimer;
 
         private JiraApiRequestFactory jiraApiRequestFactory;
         private RestRequestFactory restRequestFactory;
