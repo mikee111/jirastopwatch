@@ -561,8 +561,12 @@ namespace StopWatch
 
         private void btnRemoveIssue_Click(object sender, EventArgs e)
         {
-            Remove();
-        }
+					DialogResult dialogResult = MessageBox.Show("Do you really want to delete this timer?", "Delete", MessageBoxButtons.YesNo);
+					if (dialogResult == DialogResult.Yes)
+					{
+						Remove();
+					}
+				}
 
         public void Remove()
         {
@@ -572,7 +576,11 @@ namespace StopWatch
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            Reset();
+						DialogResult dialogResult = MessageBox.Show("Do you really want to reset this timer?", "Reset", MessageBoxButtons.YesNo);
+						if (dialogResult == DialogResult.Yes)
+						{
+								Reset();
+						}
         }
 
 
