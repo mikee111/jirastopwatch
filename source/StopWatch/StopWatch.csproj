@@ -161,8 +161,10 @@
     <None Include="Resources\add22.bmp" />
     <Content Include="icons\addissue22.png" />
     <None Include="Resources\addissue22.png" />
+    <None Include="icons\addtime.png" />
     <Content Include="icons\delete24.png" />
     <None Include="icons\help22.png" />
+    <None Include="icons\jira.png" />
     <Content Include="stopwatchicon.ico" />
     <None Include="icons\play26.png" />
     <None Include="icons\pause26.png" />
