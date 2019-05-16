@@ -192,15 +192,20 @@ namespace StopWatch
 			{
 				ShowOnTop();
 
-				String str = String.Format("You have been idle for more than {0} minutes. Do you want to remove them from all currently running timers?", maxIdleTime / 60000);
+				String str = String.Format("You have been idle for more than {0} minutes.", maxIdleTime / 60000);
 				var timeOnDialog = DateTime.Now.TimeOfDay;
-				DialogResult dialogResult = MessageBox.Show(str, "You have been idle", MessageBoxButtons.YesNo);
-				if (dialogResult == DialogResult.Yes)
-				{
-					var currTime = DateTime.Now.TimeOfDay;
-					var diff = currTime - timeOnDialog;
-					var totalIdleTime = idleTime + diff.TotalMilliseconds;
+				idleTimer.Stop();
+				MessageBox.Show(str, "You have been idle!", MessageBoxButtons.OK);
 
+				var currTime = DateTime.Now.TimeOfDay;
+				var diff = currTime - timeOnDialog;
+				var totalIdleTime = idleTime + diff.TotalMilliseconds;
+
+				String remStr = String.Format("Subtract {0} minutes from all running timers?", totalIdleTime / 60000);
+				DialogResult timeResult = MessageBox.Show(remStr, "Subtract time?", MessageBoxButtons.YesNo);
+
+				if(timeResult == DialogResult.Yes)
+				{
 					// subtract from all running timers
 					foreach (IssueControl issue in this.issueControls)
 					{
@@ -209,14 +214,9 @@ namespace StopWatch
 					}
 
 					UpdateTotalTime();
+				}
 
-					String remStr = String.Format("{0} minutes subtracted.", totalIdleTime / 60000);
-					MessageBox.Show(remStr, "Idle time removed", MessageBoxButtons.OK);
-				}
-				else if (dialogResult == DialogResult.No)
-				{
-					//
-				}
+				idleTimer.Start();
 			}
 		}
 
@@ -303,6 +303,11 @@ namespace StopWatch
             if (!CrossPlatformHelpers.IsWindowsEnvironment())
                 return;
 
+						if (WindowState == FormWindowState.Minimized)
+						{
+								idleTimer.Start();
+						}
+
             if (!this.settings.MinimizeToTray)
                 return;
 
@@ -310,7 +315,6 @@ namespace StopWatch
             {
                 this.notifyIcon.Visible = true;
                 this.Hide();
-								idleTimer.Start();
 						}
             else if (WindowState == FormWindowState.Normal)
             {
