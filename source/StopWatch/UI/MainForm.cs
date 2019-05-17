@@ -138,10 +138,12 @@ namespace StopWatch
 
             SaveSettingsAndIssueStates();
 
-            if (firstTick)
+            /* TODO no check for updates ATM
+						if (firstTick)
             {
                 CheckForUpdates();
             }
+						*/
         }
 
 				internal struct LASTINPUTINFO
@@ -989,10 +991,15 @@ namespace StopWatch
         {
             System.Diagnostics.Process.Start("http://jirastopwatch.com/doc");
         }
-    }
 
-    // content item for the combo box
-    public class CBFilterItem {
+		private void MainForm_Load(object sender, EventArgs e)
+		{
+
+		}
+	}
+
+	// content item for the combo box
+	public class CBFilterItem {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Jql { get; set; }

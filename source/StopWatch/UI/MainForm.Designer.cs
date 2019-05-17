@@ -226,6 +226,7 @@ namespace StopWatch
 			this.Text = "JIRA StopWatch";
 			this.TopMost = true;
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
+			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.Shown += new System.EventHandler(this.MainForm_Shown);
 			this.Resize += new System.EventHandler(this.MainForm_Resize);
 			((System.ComponentModel.ISupportInitialize)(this.pbSettings)).EndInit();
