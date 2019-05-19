@@ -160,6 +160,7 @@ namespace StopWatch
             // cbSaveTimerState
             // 
             this.cbSaveTimerState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSaveTimerState.Enabled = false;
             this.cbSaveTimerState.FormattingEnabled = true;
             this.cbSaveTimerState.Location = new System.Drawing.Point(122, 229);
             this.cbSaveTimerState.Name = "cbSaveTimerState";

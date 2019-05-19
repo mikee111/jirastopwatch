@@ -128,6 +128,8 @@ namespace StopWatch
 
         public void UpdateOutput(bool updateSummary = false)
         {
+            cbJira.Enabled = WatchTimer.TimeElapsed.TotalMilliseconds == 0 && !WatchTimer.Running;
+
             tbTime.Text = JiraTimeHelpers.TimeSpanToJiraTime(WatchTimer.TimeElapsed);
 
             if (WatchTimer.Running)
@@ -149,7 +151,7 @@ namespace StopWatch
 
             btnOpen.Enabled = cbJira.Text.Trim() != "";
             btnReset.Enabled = WatchTimer.Running || WatchTimer.TimeElapsed.Ticks > 0;
-            btnPostAndReset.Enabled = WatchTimer.TimeElapsedNearestMinute.TotalMinutes >= 1;
+            btnPostAndReset.Enabled = WatchTimer.TimeElapsedNearestMinute.TotalMinutes >= 1 && cbJira.Text.Length != 0;
 
             if (updateSummary)
                 UpdateSummary();
@@ -509,14 +511,8 @@ namespace StopWatch
 
         private void cbJira_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Control)
-            {
-                e.Handled = true;
-                return;
-            }
-
-            if (e.KeyCode == Keys.Enter)
-                UpdateOutput(true);
+            e.SuppressKeyPress = true;
+            e.Handled = true;
         }
 
 
@@ -615,8 +611,10 @@ namespace StopWatch
 
         private void tbTime_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            EditTime();
-
+            if (cbJira.Text.Length != 0)
+            {
+                EditTime();
+            }
         }
 
 

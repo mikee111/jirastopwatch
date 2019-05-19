@@ -124,7 +124,7 @@ namespace StopWatch
             else
                 this.ApiToken = "";
             this.FirstRun = Properties.Settings.Default.FirstRun;
-            this.SaveTimerState = (SaveTimerSetting)Properties.Settings.Default.SaveTimerState;
+            this.SaveTimerState = SaveTimerSetting.SavePause; //(SaveTimerSetting)Properties.Settings.Default.SaveTimerState;
             this.PauseOnSessionLock = (PauseAndResumeSetting)Properties.Settings.Default.PauseOnSessionLock;
             this.PostWorklogComment = (WorklogCommentSetting)Properties.Settings.Default.PostWorklogComment;
 
