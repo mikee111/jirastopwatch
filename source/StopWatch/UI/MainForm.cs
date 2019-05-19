@@ -138,12 +138,10 @@ namespace StopWatch
 
             SaveSettingsAndIssueStates();
 
-            /* TODO no check for updates ATM
 						if (firstTick)
             {
                 CheckForUpdates();
             }
-						*/
         }
 
 				internal struct LASTINPUTINFO
@@ -282,6 +280,7 @@ namespace StopWatch
             }
 
             ticker.Start();
+            idleTimer.Start();
         }
 
 
@@ -305,11 +304,6 @@ namespace StopWatch
             if (!CrossPlatformHelpers.IsWindowsEnvironment())
                 return;
 
-						if (WindowState == FormWindowState.Minimized)
-						{
-								idleTimer.Start();
-						}
-
             if (!this.settings.MinimizeToTray)
                 return;
 
@@ -321,7 +315,6 @@ namespace StopWatch
             else if (WindowState == FormWindowState.Normal)
             {
                 this.notifyIcon.Visible = false;
-								idleTimer.Stop();
             }
         }
 
@@ -758,7 +751,7 @@ namespace StopWatch
                                 latestRelease.TagName,
                                 currentVersion);
                             if (MessageBox.Show(msg, "New version available", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                                System.Diagnostics.Process.Start("https://github.com/carstengehling/jirastopwatch/releases/latest");
+                                System.Diagnostics.Process.Start("https://github.com/mikee111/jirastopwatch/releases/latest");
                         }
                     );
                 }

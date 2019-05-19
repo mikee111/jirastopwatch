@@ -23,7 +23,7 @@ namespace StopWatch
         public static GithubRelease GetLatestVersion()
         {
             RestClient client = new RestClient("https://api.github.com");
-            RestRequest request = new RestRequest("/repos/carstengehling/jirastopwatch/releases/latest");
+            RestRequest request = new RestRequest("/repos/mikee111/jirastopwatch/releases/latest");
 
             IRestResponse<GithubRelease> response = client.Execute<GithubRelease>(request);
             if (response.StatusCode != HttpStatusCode.OK)
