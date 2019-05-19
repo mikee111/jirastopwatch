@@ -55,7 +55,7 @@ namespace StopWatch
         {
             get
             {
-                return TimeSpan.FromMinutes(Math.Ceiling(TimeElapsed.TotalMinutes));
+                return TimeSpan.FromMinutes(Math.Floor(TimeElapsed.TotalMinutes));
             }
         }
 

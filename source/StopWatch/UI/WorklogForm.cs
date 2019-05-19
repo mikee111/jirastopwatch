@@ -106,10 +106,11 @@ namespace StopWatch
                 tbComment.Text = String.Format("{0}{0}{1}", Environment.NewLine, comment);
                 tbComment.SelectionStart = 0;
             }
+						loggedTimeLabel.Text = JiraTimeHelpers.TimeSpanToJiraTime(TimeElapsed);
 
-            // I don't see why I need to do this, but the first time I call LocalDateTime it seems to change time zone on the actual Date4TimeOffset
-            // So I don't get the right time.  So I call just once and update both from the same object
-            DateTime localInitialStartTime = initialStartTime.LocalDateTime;
+						// I don't see why I need to do this, but the first time I call LocalDateTime it seems to change time zone on the actual Date4TimeOffset
+						// So I don't get the right time.  So I call just once and update both from the same object
+						DateTime localInitialStartTime = initialStartTime.LocalDateTime;
             this.startDatePicker.Value = localInitialStartTime;
             this.startTimePicker.Value = localInitialStartTime;
 
