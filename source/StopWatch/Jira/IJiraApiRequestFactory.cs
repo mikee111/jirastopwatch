@@ -23,13 +23,14 @@ namespace StopWatch
         IRestRequest CreateValidateSessionRequest();
         IRestRequest CreateGetFavoriteFiltersRequest();
         IRestRequest CreateGetIssuesByJQLRequest(string jql);
-        IRestRequest CreateGetIssueSummaryRequest(string key);
+        IRestRequest CreateGetIssueRequest(string key);
         IRestRequest CreateGetIssueTimetrackingRequest(string key);
         IRestRequest CreatePostWorklogRequest(string key, DateTimeOffset started, TimeSpan time, string comment, EstimateUpdateMethods adjustmentMethod, string adjustmentValue);
         IRestRequest CreatePostCommentRequest(string key, string comment);
         IRestRequest CreateGetAvailableTransitions(string key);
         IRestRequest CreateDoTransition(string key, int transitionId);
         IRestRequest CreateGetConfigurationRequest();
+        IRestRequest CreateGetWorklogsRequest(string key);
     }
 
 }

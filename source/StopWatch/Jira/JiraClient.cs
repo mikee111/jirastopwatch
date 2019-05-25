@@ -91,12 +91,16 @@ namespace StopWatch
             }
         }
 
-
-        public string GetIssueSummary(string key, bool addProjectName)
+        public Worklogs GetWorklogs(string key)
         {
-            var request = jiraApiRequestFactory.CreateGetIssueSummaryRequest(key);
-            var issue = jiraApiRequester.DoAuthenticatedRequest<Issue>(request).Fields;
-            return addProjectName ? issue.Project.Name + ": " + issue.Summary : issue.Summary;
+            var request = jiraApiRequestFactory.CreateGetWorklogsRequest(key);
+            return jiraApiRequester.DoAuthenticatedRequest<Worklogs>(request);
+        }
+
+        public Issue GetIssue(string key)
+        {
+            var request = jiraApiRequestFactory.CreateGetIssueRequest(key);
+            return jiraApiRequester.DoAuthenticatedRequest<Issue>(request);
         }
 
         public TimetrackingFields GetIssueTimetracking(string key)

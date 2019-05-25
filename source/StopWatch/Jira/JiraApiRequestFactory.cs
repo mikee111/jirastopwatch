@@ -48,7 +48,7 @@ namespace StopWatch
         }
 
 
-        public IRestRequest CreateGetIssueSummaryRequest(string key)
+        public IRestRequest CreateGetIssueRequest(string key)
         {
             var request = restRequestFactory.Create(String.Format("/rest/api/2/issue/{0}", key.Trim()), Method.GET);
             return request;
@@ -60,6 +60,11 @@ namespace StopWatch
             return request;
         }
 
+        public IRestRequest CreateGetWorklogsRequest(string key)
+        {
+            var request = restRequestFactory.Create(String.Format("/rest/api/3/issue/{0}/worklog", key.Trim()), Method.GET);
+            return request;
+        }
 
         public IRestRequest CreatePostWorklogRequest(string key, DateTimeOffset started, TimeSpan time, string comment, EstimateUpdateMethods adjustmentMethod, string adjustmentValue)
         {

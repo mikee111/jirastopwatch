@@ -56,7 +56,7 @@
         public void CreateGetIssueSummaryRequest_CreatesValidRequest()
         {
             string key = "FOO-42";
-            var request = jiraApiRequestFactory.CreateGetIssueSummaryRequest(key);
+            var request = jiraApiRequestFactory.CreateGetIssueRequest(key);
             requestFactoryMock.Verify(m => m.Create(String.Format("/rest/api/2/issue/{0}", key), Method.GET));
         }
 
@@ -65,7 +65,7 @@
         public void CreateGetIssueSummaryRequest_RemoveLeadingAndTrailingSpacesFromIssueKey()
         {
             string key = "   FOO-42   ";
-            var request = jiraApiRequestFactory.CreateGetIssueSummaryRequest(key);
+            var request = jiraApiRequestFactory.CreateGetIssueRequest(key);
             requestFactoryMock.Verify(m => m.Create(String.Format("/rest/api/2/issue/{0}", key.Trim()), Method.GET));
         }
 

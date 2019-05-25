@@ -205,21 +205,44 @@ namespace StopWatch
             Task.Factory.StartNew(
                 () => {
                     string key = "";
-                    string summary = "";
+                    Issue issue;
+                    Worklogs worklogs;
+
                     this.InvokeIfRequired(
                         () => key = cbJira.Text
                     );
+
                     try
                     {
-                        summary = jiraClient.GetIssueSummary(key, settings.IncludeProjectName);
+                        issue = jiraClient.GetIssue(key);
+
                         this.InvokeIfRequired(
-                            () => lblSummary.Text = summary
+                            () => lblSummary.Text = settings.IncludeProjectName ? issue.Fields.Project.Name + ": " + issue.Fields.Summary : issue.Fields.Summary
+                        );
+
+                        this.InvokeIfRequired(
+                            () => lStoryPoints.Text = issue.Fields.StoryPoints.ToString() + " SP"
                         );
                     }
                     catch (RequestDeniedException)
                     {
                         // just leave the existing summary there when fetch fails
                     }
+
+                    worklogs = jiraClient.GetWorklogs(key);
+
+                    int totalSeconds = 0;
+                    foreach (var worklog in worklogs.Items)
+                    {
+                        if (worklog.Author.EmailAddress == settings.Username)
+                        {
+                            totalSeconds += worklog.TimeSpentSeconds;
+                        }
+                    }
+
+                    this.InvokeIfRequired(
+                        () => lTotalTime.Text = JiraTimeHelpers.TimeSpanToJiraTime(TimeSpan.FromSeconds(totalSeconds))
+                    );
                 }
             );
         }
@@ -277,6 +300,8 @@ namespace StopWatch
             this.btnPostAndReset = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnStartStop = new System.Windows.Forms.Button();
+            this.lTotalTime = new System.Windows.Forms.Label();
+            this.lStoryPoints = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cbJira
@@ -302,11 +327,12 @@ namespace StopWatch
             // 
             // tbTime
             // 
+            this.tbTime.Cursor = System.Windows.Forms.Cursors.Default;
             this.tbTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.tbTime.Location = new System.Drawing.Point(236, 27);
             this.tbTime.Name = "tbTime";
             this.tbTime.ReadOnly = true;
-            this.tbTime.Size = new System.Drawing.Size(107, 23);
+            this.tbTime.Size = new System.Drawing.Size(73, 23);
             this.tbTime.TabIndex = 3;
             this.tbTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tbTime.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbTime_KeyDown);
@@ -342,7 +368,7 @@ namespace StopWatch
             this.btnRemoveIssue.BackgroundImage = global::StopWatch.Properties.Resources.delete24;
             this.btnRemoveIssue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnRemoveIssue.Enabled = false;
-            this.btnRemoveIssue.Location = new System.Drawing.Point(417, 24);
+            this.btnRemoveIssue.Location = new System.Drawing.Point(447, 24);
             this.btnRemoveIssue.Name = "btnRemoveIssue";
             this.btnRemoveIssue.Size = new System.Drawing.Size(28, 28);
             this.btnRemoveIssue.TabIndex = 7;
@@ -355,7 +381,7 @@ namespace StopWatch
             this.btnPostAndReset.BackgroundImage = global::StopWatch.Properties.Resources.addtime;
             this.btnPostAndReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnPostAndReset.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPostAndReset.Location = new System.Drawing.Point(349, 24);
+            this.btnPostAndReset.Location = new System.Drawing.Point(379, 24);
             this.btnPostAndReset.Name = "btnPostAndReset";
             this.btnPostAndReset.Size = new System.Drawing.Size(28, 28);
             this.btnPostAndReset.TabIndex = 4;
@@ -369,7 +395,7 @@ namespace StopWatch
             this.btnReset.BackgroundImage = global::StopWatch.Properties.Resources.reset24;
             this.btnReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnReset.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnReset.Location = new System.Drawing.Point(383, 24);
+            this.btnReset.Location = new System.Drawing.Point(413, 24);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(28, 28);
             this.btnReset.TabIndex = 5;
@@ -392,9 +418,29 @@ namespace StopWatch
             this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
             this.btnStartStop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnStartStop_MouseUp);
             // 
+            // lTotalTime
+            // 
+            this.lTotalTime.AutoSize = true;
+            this.lTotalTime.Location = new System.Drawing.Point(315, 37);
+            this.lTotalTime.Name = "lTotalTime";
+            this.lTotalTime.Size = new System.Drawing.Size(63, 13);
+            this.lTotalTime.TabIndex = 8;
+            this.lTotalTime.Text = "00d 0h 00m";
+            // 
+            // lStoryPoints
+            // 
+            this.lStoryPoints.AutoSize = true;
+            this.lStoryPoints.Location = new System.Drawing.Point(315, 26);
+            this.lStoryPoints.Name = "lStoryPoints";
+            this.lStoryPoints.Size = new System.Drawing.Size(36, 13);
+            this.lStoryPoints.TabIndex = 9;
+            this.lStoryPoints.Text = "00 SP";
+            // 
             // IssueControl
             // 
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.lStoryPoints);
+            this.Controls.Add(this.lTotalTime);
             this.Controls.Add(this.btnRemoveIssue);
             this.Controls.Add(this.btnPostAndReset);
             this.Controls.Add(this.lblSummary);
@@ -404,7 +450,8 @@ namespace StopWatch
             this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.cbJira);
             this.Name = "IssueControl";
-            this.Size = new System.Drawing.Size(453, 58);
+            this.Size = new System.Drawing.Size(484, 58);
+            this.Load += new System.EventHandler(this.IssueControl_Load);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.IssueControl_MouseUp);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -763,7 +810,8 @@ namespace StopWatch
         private int RemainingEstimateSeconds;
         private Button btnRemoveIssue;
         private bool _MarkedForRemoval = false;
-
+        private Label lTotalTime;
+        private Label lStoryPoints;
         private ComboTextBoxEvents cbJiraTbEvents;
         #endregion
 
@@ -823,6 +871,11 @@ namespace StopWatch
         }
 
         private void cbJira_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void IssueControl_Load(object sender, EventArgs e)
         {
 
         }
