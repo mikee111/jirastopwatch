@@ -125,7 +125,7 @@ namespace StopWatch
             // 
             this.lblBackupTime.AutoSize = true;
             this.lblBackupTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblBackupTime.Location = new System.Drawing.Point(225, 9);
+            this.lblBackupTime.Location = new System.Drawing.Point(241, 9);
             this.lblBackupTime.Name = "lblBackupTime";
             this.lblBackupTime.Size = new System.Drawing.Size(95, 17);
             this.lblBackupTime.TabIndex = 6;
@@ -136,13 +136,14 @@ namespace StopWatch
             // 
             this.tbBackupTime.BackColor = System.Drawing.SystemColors.Window;
             this.tbBackupTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbBackupTime.Location = new System.Drawing.Point(321, 6);
+            this.tbBackupTime.Location = new System.Drawing.Point(342, 5);
             this.tbBackupTime.Name = "tbBackupTime";
             this.tbBackupTime.ReadOnly = true;
-            this.tbBackupTime.Size = new System.Drawing.Size(102, 23);
+            this.tbBackupTime.Size = new System.Drawing.Size(83, 23);
             this.tbBackupTime.TabIndex = 8;
-            this.tbBackupTime.Text = "00D 0H 00M";
+            this.tbBackupTime.Text = "00d 0h 00m";
             this.tbBackupTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ttMain.SetToolTip(this.tbBackupTime, "fdfdf");
             // 
             // pMain
             // 

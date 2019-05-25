@@ -424,18 +424,16 @@ namespace StopWatch
             this.lTotalTime.AutoSize = true;
             this.lTotalTime.Location = new System.Drawing.Point(315, 37);
             this.lTotalTime.Name = "lTotalTime";
-            this.lTotalTime.Size = new System.Drawing.Size(63, 13);
+            this.lTotalTime.Size = new System.Drawing.Size(0, 13);
             this.lTotalTime.TabIndex = 8;
-            this.lTotalTime.Text = "00d 0h 00m";
             // 
             // lStoryPoints
             // 
             this.lStoryPoints.AutoSize = true;
             this.lStoryPoints.Location = new System.Drawing.Point(315, 26);
             this.lStoryPoints.Name = "lStoryPoints";
-            this.lStoryPoints.Size = new System.Drawing.Size(36, 13);
+            this.lStoryPoints.Size = new System.Drawing.Size(0, 13);
             this.lStoryPoints.TabIndex = 9;
-            this.lStoryPoints.Text = "00 SP";
             // 
             // IssueControl
             // 

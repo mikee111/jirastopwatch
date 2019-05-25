@@ -75,8 +75,14 @@ namespace StopWatch
             
             backupTimer = new WatchTimer();
 
+            // load backup timer state
+            TimerState backupTimerState = new TimerState
+            {
+                TotalTime = settings.BackupTimer
+            };
+            backupTimer.SetState(backupTimerState);
+
             UpdateBackupTime();
-            TryStartingBackupTimer();
         }
 
 
@@ -263,8 +269,13 @@ namespace StopWatch
 
         void UpdateBackupTime()
         {
-            //tbBackupTime.Text = JiraTimeHelpers.TimeSpanToJiraTime(backupTimer.TimeElapsedNearestMinute);
-            tbBackupTime.Text = backupTimer.TimeElapsed.TotalSeconds.ToString();
+            tbBackupTime.Text = JiraTimeHelpers.TimeSpanToJiraTime(backupTimer.TimeElapsedNearestMinute);
+        }
+
+        public void SaveBackupTimer()
+        {
+            settings.BackupTimer = backupTimer.GetState().TotalTime;
+            settings.Save();
         }
 
         private void pbSettings_Click(object sender, EventArgs e)
@@ -280,6 +291,7 @@ namespace StopWatch
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             SaveSettingsAndIssueStates();
+            SaveBackupTimer();
         }
 
 
@@ -327,6 +339,8 @@ namespace StopWatch
 
             ticker.Start();
             idleTicker.Start();
+
+            TryStartingBackupTimer();
         }
 
 
