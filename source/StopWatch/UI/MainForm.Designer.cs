@@ -50,10 +50,11 @@ namespace StopWatch
             this.cbFilters = new System.Windows.Forms.ComboBox();
             this.lblActiveFilter = new System.Windows.Forms.Label();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.lblTotalTime = new System.Windows.Forms.Label();
-            this.tbTotalTime = new System.Windows.Forms.TextBox();
+            this.lblBackupTime = new System.Windows.Forms.Label();
+            this.tbBackupTime = new System.Windows.Forms.TextBox();
             this.pMain = new System.Windows.Forms.Panel();
             this.pBottom = new System.Windows.Forms.Panel();
+            this.btnReset = new System.Windows.Forms.Button();
             this.lblDivider = new System.Windows.Forms.Label();
             this.pbAddIssue = new System.Windows.Forms.PictureBox();
             this.ttMain = new System.Windows.Forms.ToolTip(this.components);
@@ -120,28 +121,28 @@ namespace StopWatch
             this.notifyIcon.Text = "JIRA StopWatch";
             this.notifyIcon.Click += new System.EventHandler(this.notifyIcon_Click);
             // 
-            // lblTotalTime
+            // lblBackupTime
             // 
-            this.lblTotalTime.AutoSize = true;
-            this.lblTotalTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblTotalTime.Location = new System.Drawing.Point(304, 9);
-            this.lblTotalTime.Name = "lblTotalTime";
-            this.lblTotalTime.Size = new System.Drawing.Size(40, 17);
-            this.lblTotalTime.TabIndex = 6;
-            this.lblTotalTime.Text = "Total";
-            this.lblTotalTime.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblBackupTime.AutoSize = true;
+            this.lblBackupTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lblBackupTime.Location = new System.Drawing.Point(225, 9);
+            this.lblBackupTime.Name = "lblBackupTime";
+            this.lblBackupTime.Size = new System.Drawing.Size(95, 17);
+            this.lblBackupTime.TabIndex = 6;
+            this.lblBackupTime.Text = "Backup Timer";
+            this.lblBackupTime.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // tbTotalTime
+            // tbBackupTime
             // 
-            this.tbTotalTime.BackColor = System.Drawing.SystemColors.Window;
-            this.tbTotalTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTotalTime.Location = new System.Drawing.Point(350, 6);
-            this.tbTotalTime.Name = "tbTotalTime";
-            this.tbTotalTime.ReadOnly = true;
-            this.tbTotalTime.Size = new System.Drawing.Size(102, 23);
-            this.tbTotalTime.TabIndex = 8;
-            this.tbTotalTime.Text = "2D 45H 34M";
-            this.tbTotalTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbBackupTime.BackColor = System.Drawing.SystemColors.Window;
+            this.tbBackupTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbBackupTime.Location = new System.Drawing.Point(321, 6);
+            this.tbBackupTime.Name = "tbBackupTime";
+            this.tbBackupTime.ReadOnly = true;
+            this.tbBackupTime.Size = new System.Drawing.Size(102, 23);
+            this.tbBackupTime.TabIndex = 8;
+            this.tbBackupTime.Text = "00D 0H 00M";
+            this.tbBackupTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // pMain
             // 
@@ -154,15 +155,29 @@ namespace StopWatch
             // 
             // pBottom
             // 
+            this.pBottom.Controls.Add(this.btnReset);
             this.pBottom.Controls.Add(this.lblDivider);
-            this.pBottom.Controls.Add(this.tbTotalTime);
+            this.pBottom.Controls.Add(this.tbBackupTime);
             this.pBottom.Controls.Add(this.pbSettings);
-            this.pBottom.Controls.Add(this.lblTotalTime);
+            this.pBottom.Controls.Add(this.lblBackupTime);
             this.pBottom.Controls.Add(this.lblConnectionStatus);
             this.pBottom.Location = new System.Drawing.Point(0, 140);
             this.pBottom.Name = "pBottom";
             this.pBottom.Size = new System.Drawing.Size(484, 32);
             this.pBottom.TabIndex = 10;
+            // 
+            // btnReset
+            // 
+            this.btnReset.BackgroundImage = global::StopWatch.Properties.Resources.reset24;
+            this.btnReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnReset.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnReset.Location = new System.Drawing.Point(430, 6);
+            this.btnReset.Margin = new System.Windows.Forms.Padding(2);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(22, 22);
+            this.btnReset.TabIndex = 12;
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // lblDivider
             // 
@@ -247,8 +262,8 @@ namespace StopWatch
         private System.Windows.Forms.ComboBox cbFilters;
         private System.Windows.Forms.Label lblActiveFilter;
         private System.Windows.Forms.NotifyIcon notifyIcon;
-        private System.Windows.Forms.Label lblTotalTime;
-        private System.Windows.Forms.TextBox tbTotalTime;
+        private System.Windows.Forms.Label lblBackupTime;
+        private System.Windows.Forms.TextBox tbBackupTime;
         private System.Windows.Forms.Panel pMain;
         private System.Windows.Forms.Panel pBottom;
         private System.Windows.Forms.ToolTip ttMain;
@@ -256,6 +271,7 @@ namespace StopWatch
         private System.Windows.Forms.Panel pTop;
         private System.Windows.Forms.Label lblDivider;
         private System.Windows.Forms.PictureBox pbHelp;
+        private System.Windows.Forms.Button btnReset;
     }
 }
 

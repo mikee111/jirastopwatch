@@ -65,10 +65,19 @@ namespace StopWatch
             ticker.Interval = firstDelay;
             ticker.Tick += ticker_Tick;
 
-						idleTimer = new Timer();
-						idleTimer.Interval = idleCheckInterval;
-						idleTimer.Tick += idle_Tick;
-				}
+			idleTicker = new Timer();
+			idleTicker.Interval = idleCheckInterval;
+			idleTicker.Tick += idle_Tick;
+
+            backupTicker = new Timer();
+            backupTicker.Interval = backupCheckInterval;
+            backupTicker.Tick += backup_Tick;
+            
+            backupTimer = new WatchTimer();
+
+            UpdateBackupTime();
+            TryStartingBackupTimer();
+        }
 
 
         public void HandleSessionLock()
@@ -111,6 +120,8 @@ namespace StopWatch
         {
             IssueControl senderCtrl = (IssueControl)sender;
 
+            PauseBackupTimer();
+
             if (settings.AllowMultipleTimers)
                 return;
 
@@ -119,12 +130,15 @@ namespace StopWatch
                     issue.Pause();
         }
 
+        void issue_TimerPaused(object sender, EventArgs e)
+        {
+            TryStartingBackupTimer();
+        }
 
         void Issue_TimerReset(object sender, EventArgs e)
         {
-            UpdateTotalTime();
+            TryStartingBackupTimer();
         }
-
 
         void ticker_Tick(object sender, EventArgs e)
         {
@@ -143,46 +157,46 @@ namespace StopWatch
             }
         }
 
-				internal struct LASTINPUTINFO
+		internal struct LASTINPUTINFO
+		{
+			public uint cbSize;
+			public uint dwTime;
+		}
+
+		/// <summary>
+		/// Helps to find the idle time, (in milliseconds) spent since the last user input
+		/// </summary>
+		public class IdleTimeFinder
+		{
+			[DllImport("User32.dll")]
+			private static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
+
+			[DllImport("Kernel32.dll")]
+			private static extern uint GetLastError();
+
+			public static uint GetIdleTime()
+			{
+				LASTINPUTINFO lastInPut = new LASTINPUTINFO();
+				lastInPut.cbSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(lastInPut);
+				GetLastInputInfo(ref lastInPut);
+
+				return ((uint)Environment.TickCount - lastInPut.dwTime);
+			}
+			/// <summary>
+			/// Get the Last input time in milliseconds
+			/// </summary>
+			/// <returns></returns>
+			public static long GetLastInputTime()
+			{
+				LASTINPUTINFO lastInPut = new LASTINPUTINFO();
+				lastInPut.cbSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(lastInPut);
+				if (!GetLastInputInfo(ref lastInPut))
 				{
-					public uint cbSize;
-					public uint dwTime;
+					throw new Exception(GetLastError().ToString());
 				}
-
-				/// <summary>
-				/// Helps to find the idle time, (in milliseconds) spent since the last user input
-				/// </summary>
-				public class IdleTimeFinder
-				{
-					[DllImport("User32.dll")]
-					private static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
-
-					[DllImport("Kernel32.dll")]
-					private static extern uint GetLastError();
-
-					public static uint GetIdleTime()
-					{
-						LASTINPUTINFO lastInPut = new LASTINPUTINFO();
-						lastInPut.cbSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(lastInPut);
-						GetLastInputInfo(ref lastInPut);
-
-						return ((uint)Environment.TickCount - lastInPut.dwTime);
-					}
-					/// <summary>
-					/// Get the Last input time in milliseconds
-					/// </summary>
-					/// <returns></returns>
-					public static long GetLastInputTime()
-					{
-						LASTINPUTINFO lastInPut = new LASTINPUTINFO();
-						lastInPut.cbSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(lastInPut);
-						if (!GetLastInputInfo(ref lastInPut))
-						{
-							throw new Exception(GetLastError().ToString());
-						}
-						return lastInPut.dwTime;
-					}
-				}
+				return lastInPut.dwTime;
+			}
+		}
 
 		void idle_Tick(object sender, EventArgs e)
 		{
@@ -193,7 +207,7 @@ namespace StopWatch
 
 				String str = String.Format("You have been idle for more than {0} minutes.", maxIdleTime / 60000);
 				var timeOnDialog = DateTime.Now.TimeOfDay;
-				idleTimer.Stop();
+				idleTicker.Stop();
 				MessageBox.Show(str, "You have been idle!", MessageBoxButtons.OK);
 
 				var currTime = DateTime.Now.TimeOfDay;
@@ -211,14 +225,47 @@ namespace StopWatch
 						issue.WatchTimer.SubtractWhenRunning(totalIdleTime);
 						issue.UpdateOutput();
 					}
-
-					UpdateTotalTime();
 				}
 
-				idleTimer.Start();
+				idleTicker.Start();
 			}
 		}
 
+        void backup_Tick(object sender, EventArgs e)
+        {
+            UpdateBackupTime();
+        }
+
+        void TryStartingBackupTimer()
+        {
+            if(issueControls.All(issue => !issue.WatchTimer.Running))
+            {
+                backupTicker.Start();
+                backupTimer.Start();
+                tbBackupTime.BackColor = Color.PaleGreen;
+            }
+        }
+
+        void PauseBackupTimer()
+        {
+            backupTicker.Stop();
+            backupTimer.Pause();
+            tbBackupTime.BackColor = SystemColors.Control;
+        }
+
+        void ResetBackupTimer()
+        {
+            backupTimer.Reset();
+            tbBackupTime.BackColor = SystemColors.Control;
+            UpdateBackupTime();
+            TryStartingBackupTimer();
+        }
+
+        void UpdateBackupTime()
+        {
+            //tbBackupTime.Text = JiraTimeHelpers.TimeSpanToJiraTime(backupTimer.TimeElapsedNearestMinute);
+            tbBackupTime.Text = backupTimer.TimeElapsed.TotalSeconds.ToString();
+        }
 
         private void pbSettings_Click(object sender, EventArgs e)
         {
@@ -279,7 +326,7 @@ namespace StopWatch
             }
 
             ticker.Start();
-            idleTimer.Start();
+            idleTicker.Start();
         }
 
 
@@ -367,6 +414,7 @@ namespace StopWatch
                 this.settings.IssueCount--;
             }
             this.InitializeIssueControls();
+            TryStartingBackupTimer();
         }
 
         private void pbAddIssue_Clicked(object sender, EventArgs e)
@@ -433,6 +481,7 @@ namespace StopWatch
                 var issue = new IssueControl(this.jiraClient, this.settings);
                 issue.RemoveMeTriggered += new EventHandler(this.issue_RemoveMeTriggered);
                 issue.TimerStarted += issue_TimerStarted;
+                issue.TimerPaused += issue_TimerPaused;
                 issue.TimerReset += Issue_TimerReset;
                 issue.Selected += Issue_Selected;
                 issue.TimeEdited += Issue_TimeEdited;
@@ -483,7 +532,7 @@ namespace StopWatch
 
         private void Issue_TimeEdited(object sender, EventArgs e)
         {
-            UpdateTotalTime();
+
         }
 
         private void Issue_Selected(object sender, EventArgs e)
@@ -509,18 +558,7 @@ namespace StopWatch
         {
             foreach (var issue in this.issueControls)
                 issue.UpdateOutput(updateSummary);
-            UpdateTotalTime();
         }
-
-
-        private void UpdateTotalTime()
-        {
-            TimeSpan totalTime = new TimeSpan();
-            foreach (var issue in this.issueControls)
-                totalTime += issue.WatchTimer.TimeElapsed;
-            tbTotalTime.Text = JiraTimeHelpers.TimeSpanToJiraTime(totalTime);
-        }
-
 
         private void UpdateJiraRelatedData(bool firstTick)
         {
@@ -756,7 +794,10 @@ namespace StopWatch
         }
 
         private Timer ticker;
-				private Timer idleTimer;
+		private Timer idleTicker;
+        private Timer backupTicker;
+
+        private WatchTimer backupTimer;
 
         private JiraApiRequestFactory jiraApiRequestFactory;
         private RestRequestFactory restRequestFactory;
@@ -774,12 +815,12 @@ namespace StopWatch
         private const int firstDelay = 500;
         private const int defaultDelay = 30000;
         private const int maxIssues = 20;
-				private const int maxIdleTime = 10*60*1000;
-				private const int idleCheckInterval = 30*1000;
-				#endregion
+		private const int maxIdleTime = 10*60*1000;
+		private const int idleCheckInterval = 30*1000;
+        private const int backupCheckInterval = 2*1000;
+        #endregion
 
-				private int currentIssueIndex;
-
+        private int currentIssueIndex;
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -958,10 +999,19 @@ namespace StopWatch
 		{
 
 		}
-	}
 
-	// content item for the combo box
-	public class CBFilterItem {
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Do you really want to reset the idle timer?", "Reset", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                ResetBackupTimer();
+            }
+        }
+    }
+
+    // content item for the combo box
+    public class CBFilterItem {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Jql { get; set; }

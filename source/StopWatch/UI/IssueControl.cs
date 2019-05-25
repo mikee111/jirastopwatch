@@ -86,7 +86,7 @@ namespace StopWatch
 
         #region public events
         public event EventHandler TimerStarted;
-
+        public event EventHandler TimerPaused;
         public event EventHandler TimerReset;
         #endregion
 
@@ -321,6 +321,7 @@ namespace StopWatch
             this.cbJira.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbJira_DrawItem);
             this.cbJira.DropDown += new System.EventHandler(this.cbJira_DropDown);
             this.cbJira.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.cbJira_MeasureItem);
+            this.cbJira.SelectedIndexChanged += new System.EventHandler(this.cbJira_SelectedIndexChanged);
             this.cbJira.SelectionChangeCommitted += new System.EventHandler(this.cbJira_SelectionChangeCommitted);
             this.cbJira.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbJira_KeyDown);
             this.cbJira.Leave += new System.EventHandler(this.cbJira_Leave);
@@ -591,25 +592,28 @@ namespace StopWatch
 
         public void StartStop()
         {
-            if (WatchTimer.Running) {
+            if (WatchTimer.Running)
+            {
                 this.WatchTimer.Pause();
+                this.TimerPaused?.Invoke(this, new EventArgs());
             }
-            else {
+            else
+            {
                 this.WatchTimer.Start();
-
                 this.TimerStarted?.Invoke(this, new EventArgs());
             }
+
             UpdateOutput(true);
         }
 
         private void btnRemoveIssue_Click(object sender, EventArgs e)
         {
-					DialogResult dialogResult = MessageBox.Show("Do you really want to delete this timer?", "Delete", MessageBoxButtons.YesNo);
-					if (dialogResult == DialogResult.Yes)
-					{
-						Remove();
-					}
-				}
+			DialogResult dialogResult = MessageBox.Show("Do you really want to delete this timer?", "Delete", MessageBoxButtons.YesNo);
+			if (dialogResult == DialogResult.Yes)
+			{
+				Remove();
+			}
+		}
 
         public void Remove()
         {
@@ -619,13 +623,12 @@ namespace StopWatch
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-						DialogResult dialogResult = MessageBox.Show("Do you really want to reset this timer?", "Reset", MessageBoxButtons.YesNo);
-						if (dialogResult == DialogResult.Yes)
-						{
-								Reset();
-						}
+			DialogResult dialogResult = MessageBox.Show("Do you really want to reset this timer?", "Reset", MessageBoxButtons.YesNo);
+			if (dialogResult == DialogResult.Yes)
+			{
+			    Reset();
+			}
         }
-
 
         private void btnPostAndReset_Click(object sender, EventArgs e)
         {
@@ -876,6 +879,11 @@ namespace StopWatch
         }
 
         private void IssueControl_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbJira_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
