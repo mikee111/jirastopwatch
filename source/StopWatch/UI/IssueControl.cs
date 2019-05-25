@@ -660,6 +660,8 @@ namespace StopWatch
                     if (postSuccesful)
                         postSuccesful = jiraClient.PostWorklog(key, startTime, timeElapsed, comment, estimateUpdateMethod, estimateUpdateValue);
 
+                    jiraClient.ChangeIssueState(key, new string[]{"Start Working"});
+
                     if (postSuccesful)
                     {
                         this.InvokeIfRequired(

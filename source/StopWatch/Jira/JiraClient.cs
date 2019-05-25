@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **************************************************************************/
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace StopWatch
@@ -180,6 +181,27 @@ namespace StopWatch
             catch (RequestDeniedException)
             {
                 return false;
+            }
+        }
+
+        public void ChangeIssueState(string key, string[] transitionList)
+        {
+            if (transitionList.Length <= 0)
+                return;
+
+            transitionList = transitionList.Select(s => s.ToLowerInvariant()).ToArray();
+
+            var availableTransitions = GetAvailableTransitions(key);
+            if (availableTransitions == null || availableTransitions.Transitions.Count == 0)
+                return;
+
+            foreach (var t in availableTransitions.Transitions)
+            {
+                if (transitionList.Any(t.Name.ToLower().Contains))
+                {
+                    DoTransition(key, t.Id);
+                    return;
+                }
             }
         }
         #endregion

@@ -54,7 +54,6 @@ namespace StopWatch
             this.cbSaveTimerState = new System.Windows.Forms.ComboBox();
             this.lblPauseOnSessionLock = new System.Windows.Forms.Label();
             this.cbPauseOnSessionLock = new System.Windows.Forms.ComboBox();
-            this.splitter3 = new System.Windows.Forms.Label();
             this.splitter2 = new System.Windows.Forms.Label();
             this.splitter1 = new System.Windows.Forms.Label();
             this.cbAllowMultipleTimers = new System.Windows.Forms.CheckBox();
@@ -62,8 +61,6 @@ namespace StopWatch
             this.lblPostWorklogComment = new System.Windows.Forms.Label();
             this.lblDisplayOptions = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblStartTransitions = new System.Windows.Forms.Label();
-            this.tbStartTransitions = new System.Windows.Forms.TextBox();
             this.cbLoggingEnabbled = new System.Windows.Forms.CheckBox();
             this.lblOpenLogFolder = new System.Windows.Forms.LinkLabel();
             this.cbCheckForUpdate = new System.Windows.Forms.CheckBox();
@@ -108,7 +105,7 @@ namespace StopWatch
             // 
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOk.Location = new System.Drawing.Point(263, 464);
+            this.btnOk.Location = new System.Drawing.Point(263, 378);
             this.btnOk.Margin = new System.Windows.Forms.Padding(2);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(56, 22);
@@ -119,7 +116,7 @@ namespace StopWatch
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(324, 464);
+            this.btnCancel.Location = new System.Drawing.Point(324, 378);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(56, 22);
@@ -137,7 +134,7 @@ namespace StopWatch
             // 
             // btnAbout
             // 
-            this.btnAbout.Location = new System.Drawing.Point(11, 464);
+            this.btnAbout.Location = new System.Drawing.Point(11, 378);
             this.btnAbout.Margin = new System.Windows.Forms.Padding(2);
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(56, 22);
@@ -183,14 +180,6 @@ namespace StopWatch
             this.cbPauseOnSessionLock.Name = "cbPauseOnSessionLock";
             this.cbPauseOnSessionLock.Size = new System.Drawing.Size(176, 21);
             this.cbPauseOnSessionLock.TabIndex = 17;
-            // 
-            // splitter3
-            // 
-            this.splitter3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitter3.Location = new System.Drawing.Point(12, 453);
-            this.splitter3.Name = "splitter3";
-            this.splitter3.Size = new System.Drawing.Size(370, 2);
-            this.splitter3.TabIndex = 25;
             // 
             // splitter2
             // 
@@ -252,23 +241,6 @@ namespace StopWatch
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(370, 2);
             this.label1.TabIndex = 22;
-            // 
-            // lblStartTransitions
-            // 
-            this.lblStartTransitions.Location = new System.Drawing.Point(9, 386);
-            this.lblStartTransitions.Name = "lblStartTransitions";
-            this.lblStartTransitions.Size = new System.Drawing.Size(107, 52);
-            this.lblStartTransitions.TabIndex = 23;
-            this.lblStartTransitions.Text = "Possible state changes when pressing play (seperate by newline)";
-            // 
-            // tbStartTransitions
-            // 
-            this.tbStartTransitions.AcceptsReturn = true;
-            this.tbStartTransitions.Location = new System.Drawing.Point(122, 386);
-            this.tbStartTransitions.Multiline = true;
-            this.tbStartTransitions.Name = "tbStartTransitions";
-            this.tbStartTransitions.Size = new System.Drawing.Size(200, 52);
-            this.tbStartTransitions.TabIndex = 24;
             // 
             // cbLoggingEnabbled
             // 
@@ -368,7 +340,7 @@ namespace StopWatch
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(391, 494);
+            this.ClientSize = new System.Drawing.Size(391, 406);
             this.Controls.Add(this.lblOpenAPITokensPage);
             this.Controls.Add(this.cbIncludeProjectName);
             this.Controls.Add(this.tbApiToken);
@@ -378,14 +350,11 @@ namespace StopWatch
             this.Controls.Add(this.cbCheckForUpdate);
             this.Controls.Add(this.lblOpenLogFolder);
             this.Controls.Add(this.cbLoggingEnabbled);
-            this.Controls.Add(this.tbStartTransitions);
-            this.Controls.Add(this.lblStartTransitions);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbPostWorklogComment);
             this.Controls.Add(this.lblPostWorklogComment);
             this.Controls.Add(this.cbAllowMultipleTimers);
             this.Controls.Add(this.cbPauseOnSessionLock);
-            this.Controls.Add(this.splitter3);
             this.Controls.Add(this.cbSaveTimerState);
             this.Controls.Add(this.splitter2);
             this.Controls.Add(this.splitter1);
@@ -423,7 +392,6 @@ namespace StopWatch
         private System.Windows.Forms.ComboBox cbSaveTimerState;
         private System.Windows.Forms.ComboBox cbPauseOnSessionLock;
         private System.Windows.Forms.Label lblPauseOnSessionLock;
-        private System.Windows.Forms.Label splitter3;
         private System.Windows.Forms.Label splitter2;
         private System.Windows.Forms.Label splitter1;
         private System.Windows.Forms.CheckBox cbAllowMultipleTimers;
@@ -431,8 +399,6 @@ namespace StopWatch
         private System.Windows.Forms.Label lblPostWorklogComment;
         private System.Windows.Forms.Label lblDisplayOptions;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblStartTransitions;
-        private System.Windows.Forms.TextBox tbStartTransitions;
         private System.Windows.Forms.CheckBox cbLoggingEnabbled;
         private System.Windows.Forms.LinkLabel lblOpenLogFolder;
         private System.Windows.Forms.CheckBox cbCheckForUpdate;

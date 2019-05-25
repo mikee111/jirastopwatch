@@ -64,9 +64,7 @@ namespace StopWatch
 
         public int CurrentFilter { get; set; }
 
-        public List<PersistedIssue> PersistedIssues { get; private set; }
-
-        public string StartTransitions { get; set; }
+        public List<PersistedIssue> PersistedIssues { get; private set; }        
 
         public bool LoggingEnabled { get; set; }
 
@@ -134,8 +132,6 @@ namespace StopWatch
 
             this.AllowMultipleTimers = Properties.Settings.Default.AllowMultipleTimers;
 
-            this.StartTransitions = Properties.Settings.Default.StartTransitions;
-
             this.LoggingEnabled = Properties.Settings.Default.LoggingEnabled;
 
             CheckForUpdate = Properties.Settings.Default.CheckForUpdate;
@@ -169,8 +165,6 @@ namespace StopWatch
                 Properties.Settings.Default.PersistedIssues = WriteIssues(this.PersistedIssues);
 
                 Properties.Settings.Default.AllowMultipleTimers = this.AllowMultipleTimers;
-
-                Properties.Settings.Default.StartTransitions = this.StartTransitions;
 
                 Properties.Settings.Default.LoggingEnabled = this.LoggingEnabled;
 

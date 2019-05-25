@@ -79,8 +79,6 @@ namespace StopWatch
             };
             cbPostWorklogComment.SelectedValue = this.settings.PostWorklogComment;
 
-            tbStartTransitions.Text = this.settings.StartTransitions;
-
             cbLoggingEnabbled.Checked = this.settings.LoggingEnabled;
 
             cbCheckForUpdate.Checked = settings.CheckForUpdate;
@@ -105,8 +103,6 @@ namespace StopWatch
                 this.settings.SaveTimerState = (SaveTimerSetting)cbSaveTimerState.SelectedValue;
                 this.settings.PauseOnSessionLock = (PauseAndResumeSetting)cbPauseOnSessionLock.SelectedValue;
                 this.settings.PostWorklogComment = (WorklogCommentSetting)cbPostWorklogComment.SelectedValue;
-
-                this.settings.StartTransitions = tbStartTransitions.Text;
 
                 this.settings.LoggingEnabled = cbLoggingEnabbled.Checked;
                 settings.CheckForUpdate = cbCheckForUpdate.Checked;

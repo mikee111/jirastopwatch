@@ -110,7 +110,6 @@ namespace StopWatch
         void issue_TimerStarted(object sender, EventArgs e)
         {
             IssueControl senderCtrl = (IssueControl)sender;
-            ChangeIssueState(senderCtrl.IssueKey);
 
             if (settings.AllowMultipleTimers)
                 return;
@@ -578,36 +577,6 @@ namespace StopWatch
                 }
             );
         }
-
-
-        private void ChangeIssueState(string issueKey)
-        {
-            if (string.IsNullOrWhiteSpace(settings.StartTransitions))
-                return;
-
-            Task.Factory.StartNew(
-                () =>
-                {
-                    var startTransitions = this.settings.StartTransitions
-                        .Split(new string[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(l => l.Trim().ToLower()).ToArray();
-
-                    var availableTransitions = jiraClient.GetAvailableTransitions(issueKey);
-                    if (availableTransitions == null || availableTransitions.Transitions.Count() == 0)
-                        return;
-
-                    foreach (var t in availableTransitions.Transitions)
-                    {
-                        if (startTransitions.Any(t.Name.ToLower().Contains))
-                        {
-                            jiraClient.DoTransition(issueKey, t.Id);
-                            return;
-                        }
-                    }
-                }
-            );
-        }
-
 
         private void EditSettings()
         {
