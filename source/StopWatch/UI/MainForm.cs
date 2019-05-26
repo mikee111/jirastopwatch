@@ -263,6 +263,7 @@ namespace StopWatch
             {
                 backupTicker.Start();
                 backupTimer.Start();
+                runningTicker.Start();
                 tbBackupTime.BackColor = Color.PaleGreen;
             }
         }
@@ -271,13 +272,17 @@ namespace StopWatch
         {
             backupTicker.Stop();
             backupTimer.Pause();
+            runningTicker.Stop();
             tbBackupTime.BackColor = SystemColors.Control;
         }
 
         void ResetBackupTimer()
         {
+            backupTicker.Stop();
             backupTimer.Reset();
+            runningTicker.Stop();
             tbBackupTime.BackColor = SystemColors.Control;
+
             UpdateBackupTime();
             TryStartingBackupTimer();
         }
@@ -354,7 +359,6 @@ namespace StopWatch
 
             ticker.Start();
             idleTicker.Start();
-            runningTicker.Start();
 
             TryStartingBackupTimer();
         }
