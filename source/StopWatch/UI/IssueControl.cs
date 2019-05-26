@@ -55,7 +55,7 @@ namespace StopWatch
             {
                 cbJira.Items.Clear();
                 foreach (var issue in value)
-                    cbJira.Items.Add(new CBIssueItem(issue.Key, issue.Fields.Summary));
+                    cbJira.Items.Add(new CBIssueItem(issue.Key, issue.Fields.Summary, issue.Fields.IssueType.Name));
             }
         }
 
@@ -141,13 +141,6 @@ namespace StopWatch
                 btnStartStop.BackgroundImage = (System.Drawing.Image)(Properties.Resources.play26);
                 tbTime.BackColor = SystemColors.Control;
             }
-
-            /* TODO
-						if (string.IsNullOrEmpty(Comment))
-                btnPostAndReset.Image = (System.Drawing.Image)Properties.Resources.posttime26;
-            else
-                btnPostAndReset.Image = (System.Drawing.Image)Properties.Resources.posttimenote26;
-					  */
 
             btnOpen.Enabled = cbJira.Text.Trim() != "";
             btnReset.Enabled = WatchTimer.Running || WatchTimer.TimeElapsed.Ticks > 0;
@@ -528,7 +521,7 @@ namespace StopWatch
 
             // Draw the text on the second column
             using (SolidBrush sb = new SolidBrush(e.ForeColor))
-                e.Graphics.DrawString(item.Summary, font, sb, r2);
+                e.Graphics.DrawString(item.Summary + " (" + item.Type + ")", font, sb, r2);
 
             // Draw a line to isolate the columns 
             using (Pen p = new Pen(Color.Black))
@@ -822,10 +815,12 @@ namespace StopWatch
         private class CBIssueItem {
             public string Key { get; set; }
             public string Summary { get; set; }
+            public string Type { get; set; }
 
-            public CBIssueItem(string key, string summary) {
+            public CBIssueItem(string key, string summary, string type) {
                 Key = key;
                 Summary = summary;
+                Type = type;
             }
         }
         #endregion

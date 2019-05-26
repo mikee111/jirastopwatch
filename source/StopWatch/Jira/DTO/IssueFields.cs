@@ -20,6 +20,7 @@ namespace StopWatch
         public string Summary { get; set; }
         public TimetrackingFields Timetracking { get; set; }
         public ProjectFields Project { get; set; }
+        public IssueType IssueType { get; set; }
 
         [RestSharp.Deserializers.DeserializeAs(Name = "customfield_10014")]
         public float StoryPoints { get; set; }
@@ -33,6 +34,11 @@ namespace StopWatch
 
     internal class ProjectFields
     {
-        public string Name { get; set; } 
+        public string Name { get; set; }
+    }
+
+    internal class IssueType
+    {
+        public string Name { get; set; }
     }
 }
