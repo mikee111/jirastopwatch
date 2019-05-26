@@ -55,7 +55,7 @@ namespace StopWatch
             pMain.VerticalScroll.Visible = false;
             pMain.AutoScroll = true;
 
-            Text = string.Format("{0} v. {1}", Application.ProductName, Application.ProductVersion);
+            Text = string.Format("{0} {1}", Application.ProductName, Application.ProductVersion);
 
             cbFilters.DropDownStyle = ComboBoxStyle.DropDownList;
             cbFilters.DisplayMember = "Name";
@@ -68,6 +68,10 @@ namespace StopWatch
 			idleTicker = new Timer();
 			idleTicker.Interval = idleCheckInterval;
 			idleTicker.Tick += idle_Tick;
+
+            runningTicker = new Timer();
+            runningTicker.Interval = runningCheckInterval;
+            runningTicker.Tick += running_Tick;
 
             backupTicker = new Timer();
             backupTicker.Interval = backupCheckInterval;
@@ -204,6 +208,17 @@ namespace StopWatch
 			}
 		}
 
+        void running_Tick(object sender, EventArgs e)
+        {
+            runningTicker.Stop();
+            using (RunningDialog dialog = new RunningDialog())
+            {
+                dialog.ShowDialog();
+                runningTicker.Interval = dialog.GetSnooze();
+            }
+            runningTicker.Start();
+        }
+
 		void idle_Tick(object sender, EventArgs e)
 		{
 			var idleTime = IdleTimeFinder.GetIdleTime();
@@ -339,6 +354,7 @@ namespace StopWatch
 
             ticker.Start();
             idleTicker.Start();
+            runningTicker.Start();
 
             TryStartingBackupTimer();
         }
@@ -810,6 +826,7 @@ namespace StopWatch
         private Timer ticker;
 		private Timer idleTicker;
         private Timer backupTicker;
+        private Timer runningTicker;
 
         private WatchTimer backupTimer;
 
@@ -832,6 +849,7 @@ namespace StopWatch
 		private const int maxIdleTime = 10*60*1000;
 		private const int idleCheckInterval = 30*1000;
         private const int backupCheckInterval = 2*1000;
+        private const int runningCheckInterval = 5*60*1000;
         #endregion
 
         private int currentIssueIndex;

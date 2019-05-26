@@ -89,6 +89,12 @@
     <Compile Include="Jira\DTO\SearchResult.cs" />
     <Compile Include="Jira\DTO\Filter.cs" />
     <Compile Include="Settings\Settings.cs" />
+    <Compile Include="UI\RunningDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\RunningDialog.Designer.cs">
+      <DependentUpon>RunningDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\WorklogForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\EditTimeForm.resx">
       <DependentUpon>EditTimeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\RunningDialog.resx">
+      <DependentUpon>RunningDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\WorklogForm.resx">
       <DependentUpon>WorklogForm.cs</DependentUpon>
