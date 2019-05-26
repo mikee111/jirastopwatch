@@ -213,6 +213,7 @@ namespace StopWatch
             runningTicker.Stop();
             using (RunningDialog dialog = new RunningDialog())
             {
+                ShowOnTop();
                 dialog.ShowDialog();
                 runningTicker.Interval = dialog.GetSnooze();
             }
