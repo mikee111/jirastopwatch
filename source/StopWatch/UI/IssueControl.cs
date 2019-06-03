@@ -639,6 +639,7 @@ namespace StopWatch
                     EstimateUpdateValue = worklogForm.EstimateValue;
 
                     PostAndReset(cbJira.Text, worklogForm.InitialStartTime, WatchTimer.TimeElapsedNearestMinute, Comment, EstimateUpdateMethod, EstimateUpdateValue);
+                    UpdateOutput(true);
                 }
                 else if (formResult == DialogResult.Yes)
                 {
