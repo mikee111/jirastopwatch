@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\JiraKeyHelpers.cs" />
+    <Compile Include="Helpers\Startup.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Jira\DTO\JiraConfiguration.cs" />
     <Compile Include="Jira\DTO\Worklogs.cs" />

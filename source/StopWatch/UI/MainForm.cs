@@ -65,9 +65,9 @@ namespace StopWatch
             ticker.Interval = firstDelay;
             ticker.Tick += ticker_Tick;
 
-			idleTicker = new Timer();
-			idleTicker.Interval = idleCheckInterval;
-			idleTicker.Tick += idle_Tick;
+            idleTicker = new Timer();
+            idleTicker.Interval = idleCheckInterval;
+            idleTicker.Tick += idle_Tick;
 
             runningTicker = new Timer();
             runningTicker.Interval = runningCheckInterval;
@@ -357,6 +357,8 @@ namespace StopWatch
                 }
                 i++;
             }
+
+            Startup.Set(settings.RunOnStartup);
 
             ticker.Start();
             idleTicker.Start();
@@ -1032,10 +1034,10 @@ namespace StopWatch
             System.Diagnostics.Process.Start("http://jirastopwatch.com/doc");
         }
 
-		private void MainForm_Load(object sender, EventArgs e)
-		{
+        private void MainForm_Load(object sender, EventArgs e)
+        {
 
-		}
+        }
 
         private void btnReset_Click(object sender, EventArgs e)
         {

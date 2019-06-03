@@ -53,6 +53,7 @@ namespace StopWatch
         public int IssueCount { get; set; }
         public bool AllowMultipleTimers { get; set; }
         public bool IncludeProjectName { get; set; }
+        public bool RunOnStartup { get; set; }
 
         public SaveTimerSetting SaveTimerState { get; set; }
         public PauseAndResumeSetting PauseOnSessionLock { get; set; }
@@ -116,6 +117,7 @@ namespace StopWatch
 
             this.AlwaysOnTop = Properties.Settings.Default.AlwaysOnTop;
             this.IncludeProjectName = Properties.Settings.Default.IncludeProjectName;
+            this.RunOnStartup = Properties.Settings.Default.RunOnStartup;
             this.MinimizeToTray = Properties.Settings.Default.MinimizeToTray;
             this.IssueCount = Properties.Settings.Default.IssueCount;
             this.Username = Properties.Settings.Default.Username;
@@ -152,6 +154,7 @@ namespace StopWatch
                 Properties.Settings.Default.MinimizeToTray = this.MinimizeToTray;
                 Properties.Settings.Default.IssueCount = this.IssueCount;
                 Properties.Settings.Default.IncludeProjectName = this.IncludeProjectName;
+                Properties.Settings.Default.RunOnStartup = this.RunOnStartup;
 
                 Properties.Settings.Default.Username = this.Username;
                 if (this.ApiToken != "")

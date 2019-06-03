@@ -20,8 +20,6 @@ using System.Windows.Forms;
 
 namespace StopWatch
 {
-
-
     internal partial class SettingsForm : Form
     {
         #region public members
@@ -48,6 +46,7 @@ namespace StopWatch
             cbMinimizeToTray.Checked = this.settings.MinimizeToTray;
             cbAllowMultipleTimers.Checked = this.settings.AllowMultipleTimers;
             cbIncludeProjectName.Checked = this.settings.IncludeProjectName;
+            cbStartup.Checked = this.settings.RunOnStartup;
 
             cbSaveTimerState.DisplayMember = "Text";
             cbSaveTimerState.ValueMember = "Value";
@@ -99,6 +98,7 @@ namespace StopWatch
                 this.settings.MinimizeToTray = cbMinimizeToTray.Checked;
                 this.settings.AllowMultipleTimers = cbAllowMultipleTimers.Checked;
                 this.settings.IncludeProjectName = cbIncludeProjectName.Checked;
+                this.settings.RunOnStartup = cbStartup.Checked;
 
                 this.settings.SaveTimerState = (SaveTimerSetting)cbSaveTimerState.SelectedValue;
                 this.settings.PauseOnSessionLock = (PauseAndResumeSetting)cbPauseOnSessionLock.SelectedValue;
@@ -106,6 +106,8 @@ namespace StopWatch
 
                 this.settings.LoggingEnabled = cbLoggingEnabbled.Checked;
                 settings.CheckForUpdate = cbCheckForUpdate.Checked;
+
+                Startup.Set(this.settings.RunOnStartup);
             }
         }
 
@@ -127,6 +129,11 @@ namespace StopWatch
         private void lblOpenAPITokensPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://id.atlassian.com/manage/api-tokens");
+        }
+
+        private void btnOk_Click(object sender, System.EventArgs e)
+        {
+
         }
     }
 }
