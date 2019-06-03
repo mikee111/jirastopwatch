@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace StopWatch
 {
@@ -532,6 +533,14 @@ namespace StopWatch
 
         private void cbJira_DropDown(object sender, EventArgs e)
         {
+            this.InvokeIfRequired(
+                () =>
+                {
+                    cbJira.Items.Clear();
+                    cbJira.Invalidate();
+                }
+            );
+
             LoadIssues();
         }
 
@@ -743,6 +752,23 @@ namespace StopWatch
                     if (availableIssues == null)
                         return;
 
+                    // filter those already visible
+                    ctrlList = (Application.OpenForms[0] as MainForm).Controls.Find("pMain", true);
+                    if(ctrlList.Length != 0)
+                    {
+                        var issuePanel = ctrlList[0] as Panel;
+                        var issueList = issuePanel.Controls.OfType<IssueControl>();
+                        foreach (var activeIssue in issueList)
+                        {
+                            string key = "";
+                            this.InvokeIfRequired(
+                                () => key = activeIssue.IssueKey
+                            );
+
+                            availableIssues.RemoveAll(x => x.Key == key);
+                        }
+                    }
+
                     this.InvokeIfRequired(
                         () =>
                         {
@@ -878,6 +904,11 @@ namespace StopWatch
         }
 
         private void cbJira_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbJira_DropDownClosed(object sender, EventArgs e)
         {
 
         }

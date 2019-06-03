@@ -1037,11 +1037,6 @@ namespace StopWatch
             System.Diagnostics.Process.Start("http://jirastopwatch.com/doc");
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnReset_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Do you really want to reset the idle timer?", "Reset", MessageBoxButtons.YesNo);
