@@ -247,7 +247,10 @@ namespace StopWatch
 						issue.WatchTimer.SubtractWhenRunning(totalIdleTime);
 						issue.UpdateOutput();
 					}
-				}
+
+          backupTimer.SubtractWhenRunning(totalIdleTime);
+          UpdateBackupTime();
+        }
 
 				idleTicker.Start();
 			}
