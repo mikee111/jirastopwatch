@@ -1039,8 +1039,18 @@ namespace StopWatch
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Do you really want to reset the idle timer?", "Reset", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("This will reset the backup timer. Do you want to also add the time to the currently running timer?", "Reset", MessageBoxButtons.YesNoCancel);
             if (dialogResult == DialogResult.Yes)
+            {
+                foreach (var issue in issueControls)
+                {
+                    issue.WatchTimer.AddWhenRunning(backupTimer.GetState().TotalTime.TotalMilliseconds);
+                    issue.UpdateOutput();
+                }
+
+                ResetBackupTimer();
+            }
+            else if (dialogResult == DialogResult.No)
             {
                 ResetBackupTimer();
             }

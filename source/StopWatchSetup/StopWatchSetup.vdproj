@@ -21,14 +21,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_3C7E178BB9A1FB2DEBA5B38561265384"
-        "OwnerKey" = "8:_50F3BB70243F4243B4B1324E58EFC858"
+        "MsmKey" = "8:_50F3BB70243F4243B4B1324E58EFC858"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_50F3BB70243F4243B4B1324E58EFC858"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_66A5724C12B0F0AC9054EE358EB1328B"
+        "OwnerKey" = "8:_50F3BB70243F4243B4B1324E58EFC858"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -40,13 +40,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3C7E178BB9A1FB2DEBA5B38561265384"
+        "OwnerKey" = "8:_50F3BB70243F4243B4B1324E58EFC858"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_50F3BB70243F4243B4B1324E58EFC858"
+        "OwnerKey" = "8:_66A5724C12B0F0AC9054EE358EB1328B"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -164,42 +164,11 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3C7E178BB9A1FB2DEBA5B38561265384"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_3C7E178BB9A1FB2DEBA5B38561265384"
-                    {
-                    "Name" = "8:RestSharp.DLL"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:RestSharp.DLL"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_B2FCC0FC0E354BDE9A303C416C74C073"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_50F3BB70243F4243B4B1324E58EFC858"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:StopWatch, Version=2.3.5.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:StopWatch, Version=2.3.6.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_50F3BB70243F4243B4B1324E58EFC858"
@@ -224,6 +193,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_66A5724C12B0F0AC9054EE358EB1328B"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_66A5724C12B0F0AC9054EE358EB1328B"
+                    {
+                    "Name" = "8:RestSharp.DLL"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:RestSharp.DLL"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B2FCC0FC0E354BDE9A303C416C74C073"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8D5C3054825D40A88DA392D9AC114DF1"
@@ -313,15 +313,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Jira StopWatch"
-        "ProductCode" = "8:{ABB11C5F-4C0F-4000-A236-B96A45B5094A}"
-        "PackageCode" = "8:{2AB6DEA0-C13F-4BD7-9B8B-A316B635D134}"
+        "ProductCode" = "8:{38263FD4-08D0-4BD9-AF14-ED85F3383071}"
+        "PackageCode" = "8:{66DBAE09-8ACE-4B11-AB58-A9D6988993DC}"
         "UpgradeCode" = "8:{292249F1-B39F-4CA1-AA94-28FA5DA3CFFB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.3.5"
+        "ProductVersion" = "8:2.3.6"
         "Manufacturer" = "8:Carsten Gehling"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

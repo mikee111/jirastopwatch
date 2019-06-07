@@ -202,6 +202,7 @@ namespace StopWatch
             // cbAllowMultipleTimers
             // 
             this.cbAllowMultipleTimers.AutoSize = true;
+            this.cbAllowMultipleTimers.Enabled = false;
             this.cbAllowMultipleTimers.Location = new System.Drawing.Point(122, 322);
             this.cbAllowMultipleTimers.Margin = new System.Windows.Forms.Padding(2);
             this.cbAllowMultipleTimers.Name = "cbAllowMultipleTimers";
